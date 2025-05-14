@@ -19,9 +19,13 @@ class DiscountContext:
         self.current_price = self.original_price
         self.discounts_applied: Dict[str, Decimal] = {}
         self.messages: List[str] = []
+        self.errors: List[str] = []
 
     def apply_discount(self, name: str, amount: Decimal):
         if amount > 0:
             self.current_price -= amount
             self.discounts_applied[name] = amount
             self.messages.append(f"{name}: -{amount:.2f}")
+
+    def log_error(self, error: str):
+        self.errors.append(error)

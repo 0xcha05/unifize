@@ -18,11 +18,15 @@ class DiscountService:
         for evaluator in evaluators:
             evaluator(context)
 
+        message = "; ".join(context.messages)
+        if context.errors:
+            message += f" | Errors: {'; '.join(context.errors)}"
+
         return DiscountedPrice(
             original_price=context.original_price,
             final_price=context.current_price,
             applied_discounts=context.discounts_applied,
-            message="; ".join(context.messages),
+            message=message,
         )
 
     def get_discount_evaluators(self, voucher_code):
